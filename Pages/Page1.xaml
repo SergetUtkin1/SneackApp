@@ -14,7 +14,7 @@
                     HorizontalAlignment="Center">
             <StackPanel Orientation="Vertical">
                 <Button Content="Добавить шкилу" Style="{StaticResource MyBtnStl}"/>
-                <Button Content="кросы шкил" Style="{StaticResource MyBtnStl}"/>
+                <Button x:Name="SneackTabBtn" Click="SneackTabBtn_Click" Content="кросы шкил" Style="{StaticResource MyBtnStl}"/>
             </StackPanel>
             <StackPanel Orientation="Vertical">
                 <Button Content="Добавить кроссы" Style="{StaticResource MyBtnStl}"/>

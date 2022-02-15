@@ -13,27 +13,28 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace SneackApp.Pages
 {
     /// <summary>
-    /// Логика взаимодействия для Page1.xaml
+    /// Логика взаимодействия для PageSneakTable.xaml
     /// </summary>
-    public partial class Page1 : Page
+    public partial class PageSneakTable : Page
     {
-        public Page1()
+        public PageSneakTable()
         {
             InitializeComponent();
+            DispatcherTimer timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Tick += UpdateData;
+            timer.Start();
         }
 
-        private void CheckDbBtn_Click(object sender, RoutedEventArgs e)
+        public void UpdateData(object sender, object e)
         {
-            FrameObj.setFrame.Navigate(new PageReview());
-        }
-
-        private void SneackTabBtn_Click(object sender, RoutedEventArgs e)
-        {
-            FrameObj.setFrame.Navigate(new PageSneakTable());
+            var AllData = ConnectToDb.connObj.sneackers.ToList();
+            MyTable.ItemsSource = AllData;
         }
     }
 }
