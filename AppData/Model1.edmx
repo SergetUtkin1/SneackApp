@@ -1,0 +1,198 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище schooldbModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="pupils">
+          <Key>
+            <PropertyRef Name="pupil_id" />
+          </Key>
+          <Property Name="pupil_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FIO" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Sex" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Birhdate" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="pupils_sneackers">
+          <Key>
+            <PropertyRef Name="pupil_id" />
+            <PropertyRef Name="sneacker_id" />
+          </Key>
+          <Property Name="pupil_id" Type="int" Nullable="false" />
+          <Property Name="sneacker_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sneackers">
+          <Key>
+            <PropertyRef Name="sneacker_id" />
+          </Key>
+          <Property Name="sneacker_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="company" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="price" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK_pupils_sneackers_pupils">
+          <End Role="pupils" Type="Self.pupils" Multiplicity="1" />
+          <End Role="pupils_sneackers" Type="Self.pupils_sneackers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="pupils">
+              <PropertyRef Name="pupil_id" />
+            </Principal>
+            <Dependent Role="pupils_sneackers">
+              <PropertyRef Name="pupil_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_pupils_sneackers_sneackers">
+          <End Role="sneackers" Type="Self.sneackers" Multiplicity="1" />
+          <End Role="pupils_sneackers" Type="Self.pupils_sneackers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sneackers">
+              <PropertyRef Name="sneacker_id" />
+            </Principal>
+            <Dependent Role="pupils_sneackers">
+              <PropertyRef Name="sneacker_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище schooldbModelContainer">
+          <EntitySet Name="pupils" EntityType="Self.pupils" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="pupils_sneackers" EntityType="Self.pupils_sneackers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sneackers" EntityType="Self.sneackers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_pupils_sneackers_pupils" Association="Self.FK_pupils_sneackers_pupils">
+            <End Role="pupils" EntitySet="pupils" />
+            <End Role="pupils_sneackers" EntitySet="pupils_sneackers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_pupils_sneackers_sneackers" Association="Self.FK_pupils_sneackers_sneackers">
+            <End Role="sneackers" EntitySet="sneackers" />
+            <End Role="pupils_sneackers" EntitySet="pupils_sneackers" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="schooldbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="pupils">
+          <Key>
+            <PropertyRef Name="pupil_id" />
+          </Key>
+          <Property Name="pupil_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FIO" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Sex" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Birhdate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="sneackers" Relationship="Self.pupils_sneackers" FromRole="pupils" ToRole="sneackers" />
+        </EntityType>
+        <EntityType Name="sneackers">
+          <Key>
+            <PropertyRef Name="sneacker_id" />
+          </Key>
+          <Property Name="sneacker_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="company" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="price" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="pupils" Relationship="Self.pupils_sneackers" FromRole="sneackers" ToRole="pupils" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="pupils_sneackers">
+          <End Role="pupils" Type="Self.pupils" Multiplicity="*" />
+          <End Role="sneackers" Type="Self.sneackers" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="schooldbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="pupils" EntityType="Self.pupils" />
+          <EntitySet Name="sneackers" EntityType="Self.sneackers" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <AssociationSet Name="pupils_sneackers" Association="Self.pupils_sneackers">
+            <End Role="pupils" EntitySet="pupils" />
+            <End Role="sneackers" EntitySet="sneackers" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище schooldbModelContainer" CdmEntityContainer="schooldbEntities">
+          <EntitySetMapping Name="pupils">
+            <EntityTypeMapping TypeName="schooldbModel.pupils">
+              <MappingFragment StoreEntitySet="pupils">
+                <ScalarProperty Name="pupil_id" ColumnName="pupil_id" />
+                <ScalarProperty Name="FIO" ColumnName="FIO" />
+                <ScalarProperty Name="Sex" ColumnName="Sex" />
+                <ScalarProperty Name="Birhdate" ColumnName="Birhdate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sneackers">
+            <EntityTypeMapping TypeName="schooldbModel.sneackers">
+              <MappingFragment StoreEntitySet="sneackers">
+                <ScalarProperty Name="sneacker_id" ColumnName="sneacker_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="company" ColumnName="company" />
+                <ScalarProperty Name="price" ColumnName="price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="schooldbModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="pupils_sneackers" TypeName="schooldbModel.pupils_sneackers" StoreEntitySet="pupils_sneackers">
+            <EndProperty Name="pupils">
+              <ScalarProperty Name="pupil_id" ColumnName="pupil_id" />
+            </EndProperty>
+            <EndProperty Name="sneackers">
+              <ScalarProperty Name="sneacker_id" ColumnName="sneacker_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
